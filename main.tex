@@ -26,11 +26,17 @@
 
 \usetikzlibrary{overlay-beamer-styles}  % Overlay effects for TikZ
 
-%Added by me 
+% Added by me 
 \newcommand{\E}{\mathbb{E}}  % expectation
 \newcommand{\F}{\mathcal{F}} % Filtration 
 
 \newcommand{\R}{\mathbb{R}} % Real numbers
+
+% Limits
+\usepackage{amsmath}
+
+% Indicator function 
+\usepackage{bbm}
 
 
 \author{Andreas Slåttelid}
@@ -207,6 +213,195 @@ P(t,T_{0}) - P(t,T_{n})
 
 \end{frame}
 
+
+\section{RFR's/SOFR}
+
+\subsection{LIBOR scandal}
+\begin{frame}{LIBOR scandal}
+\begin{itemize}
+    \item LIBOR: Interbank rate provided by panel banks for multiple tenors. 
+    \item 2012: International-investigation. Collusion and rate-rigging: Barclays, UBS, Royal Bank of Scotland + others. 
+    \item Reliability, transparency and trust were needed, hence the demand for new alternative reference rates.
+    \item Solution: US: Secured Overnight Financing Rate (SOFR), UK: Sterling Overnight Index Average (SONIA). Similar alternatives exist in other countries as well.  
+\end{itemize}
+\end{frame}
+
+\subsection{SOFR}
+\begin{frame}{SOFR}
+\begin{itemize}
+    \item SOFR: overnight rate, developed by ARRC and managed by New York Fed.
+    \item Based upon overnight Repo-market, backed up by US treasury securities. 
+    \item Volume-weighted median. 
+\end{itemize} 
+
+\begin{definition}[Discrete overnight, backward-looking avarage]
+\begin{align*}
+R_{d_{i}}(T_{i}) &= \frac{1}{d_{i}}\left(
+\frac{1}{P(T_{i}, T_{i}+d_{i})} - 1
+\right) \\ 
+R^{B}(S,T) &= \frac{1}{T-S}\left(
+\prod_{i=1}^{N}[1+d_{i}R_{d_{i}}(T_{i})] - 1
+\right)
+\end{align*}
+$d_{i}$: day count fraction. 
+
+\end{definition}
+
+\end{frame}
+
+
+\begin{frame}{SOFR}
+\begin{figure}[htp]
+    \centering
+    \includegraphics[height = 6cm, width=12cm]{SOFR/SOFR_Repo.PNG}
+    \caption{O/N-SOFR and Repo volume}
+    %\label{fig: ON_1M_3M_SOFR}
+\end{figure}
+Source: 
+\end{frame}
+
+\begin{frame}{SOFR-futures}
+\begin{itemize}
+    \item SOFR, overnight rate, outlook: 24 hours. 
+    \item CME (Chicago Mercantile Exchange), publish term SOFR. 
+    \item tenors: 1M, 3M, 6M and 12M. 
+    \item Inferred from futures market. 
+\end{itemize}
+
+
+\begin{definition}[1M- and 3M-SOFR futures]
+\begin{align*}
+f^{1M}(t,S,T) &= \frac{1}{T-S}\E_{Q}\left[
+\int_{S}^{T}r(s)ds\bigg{|}\F_{t}
+\right]\;\;(\text{arithmetic}) \\ 
+f^{3M}(t,S,T) &= \frac{1}{T-S}\left(
+\E_{Q}\left[
+e^{\int_{S}^{T}r(s)ds}\bigg{|}\F_{t}
+\right]
+\right)\;(\text{geometric})
+\end{align*}    
+\end{definition}
+\end{frame}
+
+\subsection{Hedge}
+
+\begin{frame}{Hedge}
+\begin{itemize}
+    \item Loan of 30 Millon dollars over a 3M-period. 
+    \item 3M-arithmetic floating-rate $X^{3M_{A}}(S,T)$ is to be paid, over this period. 
+    \begin{align*}
+    X^{3M_{A}}(S,T) &= \frac{1}{T-S}\int_{S}^{T}r(u)du
+    \end{align*}
+    \item Available products in market: 1M-SOFR futures and 3M-SOFR futures. 
+    \item Short-rate $r = \{r(t), t\in [0,T]\}$ follows Vasicek-dynamics: 
+    \begin{align*}
+     dr(t) &= \alpha[m-r(t)]dt + \sigma dW^{Q}(t)   
+    \end{align*}
+\end{itemize}
+\end{frame} 
+
+
+\begin{frame}{Hedge}
+\begin{itemize}
+    \item Hedge possibility number one: using the available 3M-SOFR futures: 
+\begin{align*}
+\underset{a_{t}\in \R}{\arg\min}
+&\E_{Q}\left[
+\left(
+X^{3M_{A}}(S,T)-a_{t}f^{3M}(t,S,T)
+\right)^{2}
+\bigg{|}\F_{t}
+\right] \\ 
+&= \frac{
+\int_{S}^{T}\E_{Q}[r(u)|\F_{t}]du
+}{
+(T-S)f^{3M}(t,S,T)
+}      
+\end{align*}
+    \item Hedge possibility number two: use available 1M-SOFR futures: 
+\begin{align*}
+&Y(a_{t}, b_{t}, c_{t}) \\
+&:= 
+a_{t}f^{1M}(t,S,T_{1M}) + 
+b_{t}f^{1M}(t,T_{1M}, T_{2M}) + 
+c_{t}f^{1M}(t,T_{2M}, T)
+\end{align*}    
+The hedge looks like this: 
+\begin{align*}
+\underset{(a_{t}, b_{t}, c_{t})\in \R^{3}}{\arg\min}
+&\E_{Q}\left[
+\left(
+X^{3M_{A}}(S,T)-Y(a_{t}, b_{t}, c_{t})
+\right)^{2}
+\bigg{|}\F_{t}
+\right]    
+\end{align*}
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Hedge}
+ hei.   
+\end{frame}
+
+\section{ESG}
+
+\subsection{Motivation}
+\begin{frame}{ESG}
+\begin{itemize}
+    \item ESG: Environmental, Social and Governance
+    \item EU: taxonomy, carbon neutral by 2050. 
+    \item Partial Solution: Sustainable Finance,
+          ESG-linked interest rate swap. 
+    \item ISDA: SBM Offshore and ING, the world's first sustainability improvement derivative. 
+    \item SBM pays fixed and receives floating. 
+    \item ESG-part: If SBM meets certain ESG criteria, a 5-10 bp discount is applied to the fixed rate. Conversely, a penalty of 5-10 bp is added.  
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{ESG}
+Consider the following setup: 
+\begin{itemize}
+    \item $d$: basis points added or subtracted to fixed-rate $\kappa$. 
+    \item $\{A_{i}\}_{i=1}^{n}$ sequence of events, where: 
+    $A_{i} = \{X_{T_{i}} \leq C_{T_{i}}^{ESG}\}$
+    i.e. the sequence of events measuring if the ESG-risk score at time $T_{i}$: $X_{T_{i}}$, is below the ESG-criteria $C_{T_{i}}$ or not. 
+\end{itemize}
+
+\begin{definition}[ESG-fixed rate process]
+Let $K^{ESG} = (K_{i}^{ESG}(\omega))_{i=1}^{n}$ 
+denote the ESG fixed rate process, we define it recursively as: 
+
+\begin{align*}
+K_{i}^{ESG}(\omega) &= (K_{i-1}^{ESG}(\omega)-d)\mathbbm{1}_{A_{i}}(\omega)
++ (K_{i-1}^{ESG}(\omega)+d)\mathbbm{1}_{A_{i}^{C}}(\omega), \;\; i\geq 2
+\end{align*}
+
+With:
+\begin{align*}
+K_{1}^{ESG}(\omega) &= (\kappa - d)\mathbbm{1}_{A_{1}}(\omega)
++ (\kappa + d)\mathbbm{1}_{A_{1}^{C}}(\omega)    
+\end{align*}
+\end{definition}
+
+\end{frame}
+
+
+\begin{frame}{ESG}
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=10cm]{ESG/SBM_ESG_path.png}
+    \caption{ESG-fixed rate trajectory}
+    \label{fig: SBM_ESG_path}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{ESG}
+xd
+\end{frame}
 
 
 \begin{comment}
