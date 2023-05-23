@@ -30,7 +30,7 @@
 \newcommand{\E}{\mathbb{E}}  % expectation
 \newcommand{\F}{\mathcal{F}} % Filtration 
 
-\newcommand{\R}{\mathbb{R}} % Real numbers
+\newcommand{\R}{\mathbb{R}}  % Real numbers
 
 % Limits
 \usepackage{amsmath}
@@ -360,8 +360,9 @@ X^{3M_{A}}(S,T)-Y(a_{t}, b_{t}, c_{t})
 \end{frame}
 
 
+\subsection{ESG fixed rate}
 
-\begin{frame}{ESG}
+\begin{frame}{ESG fixed rate}
 Consider the following setup: 
 \begin{itemize}
     \item $d$: basis points added or subtracted to fixed-rate $\kappa$. 
@@ -379,7 +380,7 @@ K_{i}^{ESG}(\omega) &= (K_{i-1}^{ESG}(\omega)-d)\mathbbm{1}_{A_{i}}(\omega)
 + (K_{i-1}^{ESG}(\omega)+d)\mathbbm{1}_{A_{i}^{C}}(\omega), \;\; i\geq 2
 \end{align*}
 
-With:
+Where:
 \begin{align*}
 K_{1}^{ESG}(\omega) &= (\kappa - d)\mathbbm{1}_{A_{1}}(\omega)
 + (\kappa + d)\mathbbm{1}_{A_{1}^{C}}(\omega)    
@@ -388,8 +389,7 @@ K_{1}^{ESG}(\omega) &= (\kappa - d)\mathbbm{1}_{A_{1}}(\omega)
 
 \end{frame}
 
-
-\begin{frame}{ESG}
+\begin{frame}{ESG fixed rate}
 \begin{figure}[htp]
     \centering
     \includegraphics[width=10cm]{ESG/SBM_ESG_path.png}
@@ -399,9 +399,139 @@ K_{1}^{ESG}(\omega) &= (\kappa - d)\mathbbm{1}_{A_{1}}(\omega)
 \end{frame}
 
 
-\begin{frame}{ESG}
-xd
+\begin{frame}{ESG fixed rate}
+\begin{notation}
+Let $\mathcal{I} = \{k_{1}, \dots, k_{n}\}$ represent an index set. Let $\mathcal{H} 
+\subseteq \mathcal{I}$, we then define: 
+\begin{align*}
+\left(
+\bigcap_{i\in \mathcal{I}}A_{i}
+\right)^{\mathcal{H}}
+:= 
+\left(
+\bigcap_{i\in \mathcal{H}}A_{i}^{C}
+\right)
+\cap 
+\left(
+\bigcap_{i \in \mathcal{I}\setminus \mathcal{H}}A_{i}
+\right)
+\end{align*}
+\end{notation}
+
+\begin{example}
+$\mathcal{I} = \{1,2,3,4,5\}$ and $\mathcal{H} = \{1,3,4\}$, this gives us: 
+
+\begin{align*}
+\left(
+\bigcap_{i=1}^{5}A_{i}
+\right)^{
+\{1,3,4\}
+}
+&= 
+A_{1}^{C}\cap A_{2}\cap A_{3}^{C}\cap A_{4}^{C}\cap A_{5}
+\end{align*}    
+\end{example}
 \end{frame}
+
+
+\begin{frame}{ESG fixed rate}
+\begin{itemize}
+    \item Let $n\in \mathbb{N}$, $\mathcal{I}_{n} := \{1, \dots, n\}$, $\mathcal{I}_{2n}^{Even} := \{2, \dots, 2n\}$
+    \item $(A_{i})_{i \in \mathcal{I}_{n}}$ sequence of events measuring whether or not ESG-criteria is met:
+    \[
+    A_{i} = \{X_{T_{i}} \leq C_{T_{i}}^{ESG}\}
+    \]
+    \item ESG fixed rate process: $K^{ESG} = (K_{r}^{ESG}(\omega))_{r\in \mathcal{I}_{n}}$ 
+\end{itemize}
+
+\begin{observation}[Explicit form]
+\begin{align*}
+&K_{r}^{ESG}(\omega) = 
+[\kappa -d\cdot r]\mathbbm{1}\left[
+\bigcap_{i\in \mathcal{I}_{r}}A_{i}
+\right](\omega)\; +\\ 
+&\sum_{\alpha \in \mathcal{I}_{2r}^{Even}}
+\left(
+[\kappa -d\cdot (r-\alpha)]\mathbbm{1}\left[
+\bigcup_{
+j_{1}\neq \dots \neq j_{|\mathcal{I}_{\alpha}^{Even}|}
+\in \mathcal{I}_{r}
+}\left(
+\bigcap_{i\in \mathcal{I}_{r}}A_{i}
+\right)^{
+\{
+(j_{1}, \dots , j_{|\mathcal{I}_{\alpha}^{Even}|})
+\}
+}
+\right]
+\right)(\omega) 
+\end{align*} 
+\end{observation}
+\end{frame}
+
+
+\begin{frame}{ESG swap-rate process}
+\begin{proposition}[Swap rate process $\kappa_{t}^{ESG} = (\kappa_{t}^{ESG}(i))_{i\in \mathcal{I}_{n}}$]
+Denote $\kappa_{t}^{ESG}(i) := \E_{Q}[K_{i}^{ESG}(\omega)|\F_{t}]$. 
+Then for $(t\leq T_{0})$ we have: 
+\begin{align*}
+\kappa_{t}^{ESG}(i)
+&= 
+\kappa -d\cdot D(i)
+\end{align*}
+
+Where: 
+\begin{align*}
+ D(i) &= 
+i\cdot \E_{Q}\left[
+\prod_{l=1}^{i}\mathbbm{1}(A_{l})\bigg{|}\F_{t}
+\right] \\
+&+ 
+\sum_{\alpha \in \mathcal{I}_{2i}^{Even}}[i-\alpha]
+\sum_{
+j_{1}\neq \dots \neq j_{|\mathcal{I}_{\alpha}^{Even}|}
+}
+\E_{Q}\left[
+\left(
+\prod_{l=1}^{i}\mathbbm{1}(A_{l})
+\right)^{
+\{
+(j_{1}, \dots , j_{|\mathcal{I}_{\alpha}^{Even}|})
+\}
+}
+\bigg{|}\F_{t}
+\right]   
+\end{align*}
+\end{proposition}
+\end{frame}
+
+
+
+\subsection{Numerical Simulation}
+\begin{frame}{Numerical Simulation}
+\begin{itemize}
+    \item $X(t)$: process representing the ESG-risk score in payer IRS. Proposal: 
+    \begin{align*}
+    X(t) &= 100\exp(-Z(t)) \\
+    dZ(t) &= -\beta Z(t)dt + \sigma dW^{Q}(t) + dI^{Q}(t)
+    \end{align*}
+    \item $I^{Q}(t)$ is a CPP:
+    \begin{align*}
+    I^{Q}(t) &= \sum_{k=1}^{N(t)}J_{k}, \;\; J_{k}\sim  Exp(\mu),\;\; N(t) \sim Pois(\lambda t)    
+\end{align*} 
+\end{itemize}   
+\end{frame}
+
+
+\begin{frame}{Numerical Simulation}
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=10cm]{ESG/ESG_OU_path.png}
+    \caption{ESG-risk score with underlying process $X(t)$}
+    \label{fig: ESG_risk_score_underlying_X(t)}
+\end{figure}
+\end{frame}
+
 
 
 \begin{comment}
@@ -440,6 +570,7 @@ xd
         \end{equation*}
     \end{example}
 \end{frame}
+
 
 
 \section{Highlighting}
