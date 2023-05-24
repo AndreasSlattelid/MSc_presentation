@@ -38,6 +38,9 @@
 % Indicator function 
 \usepackage{bbm}
 
+% Midrule lines in tabels:
+\usepackage{booktabs}
+
 
 \author{Andreas Slåttelid}
 \title{Advancements in Risk-Free Reference Rates and ESG-linked interest rate swaps}
@@ -341,7 +344,37 @@ X^{3M_{A}}(S,T)-Y(a_{t}, b_{t}, c_{t})
 \end{frame}
 
 \begin{frame}{Hedge}
- hei.   
+\begin{itemize}
+    \item $\mathbf{x}_{t} = (a_{t}, b_{t}, c_{t})$, weightings in 1M-SOFR future rates.  
+    \item SOFR-future rates:
+    \begin{align*}
+    \left(
+    f^{1M}(t,S,T_{1M}), f^{1M}(t,T_{1M}, T_{2M}), f^{1M}(t,T_{2M}, T)
+    \right)
+    &= (\alpha_{t}, \beta_{t}, \gamma_{t})
+    \end{align*}
+    \item If $\det(M)\neq 0$, where:
+    \begin{align*}
+    M &= 
+    \begin{bmatrix}
+    \alpha_{t}^{2} & \alpha_{t}\beta_{t} &  \alpha_{t}\gamma_{t} \\ 
+    \beta_{t}^{2} & \alpha_{t}\beta_{t} &   \beta_{t}\gamma_{t} \\ 
+    \gamma_{t}^{2} & \alpha_{t}\gamma_{t} &     \beta_{t}\gamma_{t}
+    \end{bmatrix}
+    \end{align*}
+    \item Optimal weight $\hat{\mathbf{x}}_{t}$ given by: 
+    \begin{align*}
+    \hat{\mathbf{x}}_{t} &= M^{-1}\E_{Q}\left[
+    X^{3M_{A}}(S,T)\bigg{|}\F_{t}
+    \right]
+    \begin{bmatrix}
+    \alpha_{t} \\ 
+    \beta_{t} \\ 
+    \gamma_{t} 
+    \end{bmatrix}
+    \end{align*}
+\end{itemize}
+
 \end{frame}
 
 \section{ESG}
@@ -510,7 +543,7 @@ j_{1}\neq \dots \neq j_{|\mathcal{I}_{\alpha}^{Even}|}
 \subsection{Numerical Simulation}
 \begin{frame}{Numerical Simulation}
 \begin{itemize}
-    \item $X(t)$: process representing the ESG-risk score in payer IRS. Proposal: 
+    \item $X(t)$: process representing the ESG-risk score in ESG-linked IRS. Proposal: 
     \begin{align*}
     X(t) &= 100\exp(-Z(t)) \\
     dZ(t) &= -\beta Z(t)dt + \sigma dW^{Q}(t) + dI^{Q}(t)
@@ -529,6 +562,62 @@ j_{1}\neq \dots \neq j_{|\mathcal{I}_{\alpha}^{Even}|}
     \includegraphics[width=10cm]{ESG/ESG_OU_path.png}
     \caption{ESG-risk score with underlying process $X(t)$}
     \label{fig: ESG_risk_score_underlying_X(t)}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Specifications}
+\begin{itemize}
+    \item $C^{ESG} = (C_{T_{i}}^{ESG})_{i\in \mathcal{I}_{4}}$, $\F_{0}$-measurable. 
+    \item $\kappa_{t}^{ZCB} = 0.07$, the fixed-rate from the original IRS. 
+    \item $d = 0.005$ constant penalty/discount. 
+    \item $\delta:= T_{i}-T_{i-1} = 1$ 
+\end{itemize}
+We will showcase some scenarios where we consider "reasonable" and "unreasonable" ESG-criteria $C_{T_{i}}^{ESG}$. 
+
+\end{frame}
+
+\begin{frame}{Reasonable criteria}
+\begin{itemize}
+    \item $C^{ESG} = (17.8, 16.8, 15.8, 14.8)$
+\end{itemize}
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width= 8cm]{ESG/ESG_plt_criteria1.png}
+    \caption{ESG-risk score where ESG-criteria is reasonable}
+    \label{fig: ESG_risk_criteria1}
+\end{figure}    
+\end{frame}
+
+
+\begin{frame}{Reasonable criteria}
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width= 9cm]{ESG/kappa_t_ESG_1.png}
+    \caption{ESG-swap rate when ESG-criteria is reasonable}
+    \label{fig: ESG_swap_1}
+\end{figure}
+\end{frame}
+
+
+
+\begin{frame}{Unreasonable Criteria}
+Always managing to meet criteria: 
+$C^{ESG} = (24,23,22,21)$
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width= 9cm]{ESG/ESG_plt_criteria2.png}
+    \caption{ESG-risk score where ESG-criteria is always met}
+    \label{fig: ESG_risk_criteria_2}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Unreasonable Criteria}
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width= 9cm]{ESG/kappa_t_ESG_2.png}
+    \caption{ESG-swap rate, when ESG-criteria is always met}
+    \label{fig: ESG_swap_2}
 \end{figure}
 \end{frame}
 
@@ -570,6 +659,8 @@ j_{1}\neq \dots \neq j_{|\mathcal{I}_{\alpha}^{Even}|}
         \end{equation*}
     \end{example}
 \end{frame}
+
+
 
 
 
