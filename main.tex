@@ -280,7 +280,7 @@ f^{1M}(t,S,T) &= \frac{1}{T-S}\E_{Q}\left[
 f^{3M}(t,S,T) &= \frac{1}{T-S}\left(
 \E_{Q}\left[
 e^{\int_{S}^{T}r(s)ds}\bigg{|}\F_{t}
-\right]
+\right] - 1
 \right)\;(\text{geometric})
 \end{align*}    
 \end{definition}
@@ -304,7 +304,7 @@ e^{\int_{S}^{T}r(s)ds}\bigg{|}\F_{t}
 \end{frame} 
 
 
-\begin{frame}{Hedge}
+\begin{frame}{Hedge 1}
 \begin{itemize}
     \item Hedge possibility number one: using the available 3M-SOFR futures: 
 \begin{align*}
@@ -321,6 +321,48 @@ X^{3M_{A}}(S,T)-a_{t}f^{3M}(t,S,T)
 (T-S)f^{3M}(t,S,T)
 }      
 \end{align*}
+
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Hedge 1}
+\begin{itemize}
+    \item $r$ ATS: $dr(t) = [b(t) + \beta(t)r(t)]dt + \sqrt{a(t) + \alpha(t)r(t)}dW^{Q}(t)$ 
+\begin{align*}
+\underset{a_{t}\in \R}{\arg\min}
+&\E_{Q}\left[
+\left(
+X^{3M_{A}}(S,T)-a_{t}f^{3M}(t,S,T)
+\right)^{2}
+\bigg{|}\F_{t}
+\right] \\ 
+&= 
+\frac{
+r(t)(T-S)
++ \int_{S}^{T}\int_{t}^{u}b(s)dsdu 
++ \int_{S}^{T}\int_{t}^{u}\beta(s)g(s)dsdu
+}{
+(T-S)f^{3M}(t,S,T)
+}
+\end{align*}
+
+Where: 
+\begin{align*}
+g(s) &= \exp\left(
+\int_{t}^{s}\beta(v)dv
+\right)
+\left(
+\int_{t}^{s}e^{-\int_{t}^{w}\beta(v)dv}b(w)dw + \E_{Q}[r(t)]
+\right) 
+\end{align*}
+
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Hedge 2}
+\begin{itemize}
     \item Hedge possibility number two: use available 1M-SOFR futures: 
 \begin{align*}
 &Y(a_{t}, b_{t}, c_{t}) \\
@@ -339,11 +381,11 @@ X^{3M_{A}}(S,T)-Y(a_{t}, b_{t}, c_{t})
 \bigg{|}\F_{t}
 \right]    
 \end{align*}
-
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Hedge}
+\begin{frame}{Hedge 2}
+
 \begin{itemize}
     \item $\mathbf{x}_{t} = (a_{t}, b_{t}, c_{t})$, weightings in 1M-SOFR future rates.  
     \item SOFR-future rates:
@@ -376,6 +418,56 @@ X^{3M_{A}}(S,T)-Y(a_{t}, b_{t}, c_{t})
 \end{itemize}
 
 \end{frame}
+
+\begin{frame}{Numerical example}
+\begin{itemize}
+    \item Vasicek parameters: 
+    \begin{align*}
+    \alpha = 0.25, \; m = 0.035, \sigma = 0.02, r_{0} = 0.0425  
+    \end{align*} 
+    \item SOFR futures rates: 
+    \begin{align*}
+    f^{3M}(0,S,T) &= 0.0423
+    \;\;\text{and}\;\;
+    \begin{bmatrix}
+    \alpha_{0} \\ 
+    \beta_{0} \\ 
+    \gamma_{0} 
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    0.0423 \\ 
+    0.0421 \\ 
+    0.0420 
+    \end{bmatrix}
+    \end{align*}
+    \item $\hat{a}_{t}^{3M}$: optimal weiging in 3M-SOFR futures rates. 
+    \item $(\hat{a}_{t}^{1M}, \hat{b}_{t}^{1M}, \hat{c}_{t}^{1M})$: optimal weights in 1M-SOFR futures rates. 
+    \item We choose to look at the following to benchmark the hedges:
+    \begin{align*}
+    ER_{1}(t) :&= X^{3M_{A}}(S,T) - \hat{a}_{t}^{3M}f^{3M}(t,S,T) \\ 
+    ER_{2}(t) :&= X^{3M_{A}}(S,T) - Y(\hat{a}_{t}^{1M}, \hat{b}_{t}^{1M}, \hat{c}_{t}^{1M})
+    \end{align*}    
+\end{itemize}
+    
+\end{frame}
+
+
+\begin{frame}{Numerical example}
+\begin{itemize}
+    \item 1 Million simulations:
+\end{itemize}
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=9.5cm]{SOFR/SOFR_error_plt.png}
+    \caption{$ER_{1}(0)$ and $ER_{2}(0)$}
+    \label{fig: SOFR_error_plt}
+\end{figure}
+
+    
+\end{frame}
+
 
 \section{ESG}
 
