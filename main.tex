@@ -67,7 +67,7 @@
 
 \begin{frame}{Framework}
 \begin{itemize}
-    \item $(\Omega, \F, P)$ probability space.  
+    \item $(\Omega, \F, \mathbb{F}, P)$ probability space.  
     \item $\mathbb{F} = \{\F_{t}, t \in [0,T]\}$, right-continous and augmented, $T$ a fixed time horizon. 
     \item $W = \{W(t), t\in [0,T]\}$ a one-dimensional Brownian Motion. 
     \item $\mathcal{E} = \{\mathcal{E}_{t}(\gamma \bullet W), t \in [0,T]\}$ where: 
@@ -76,7 +76,7 @@
      \int_{0}^{t}\gamma(s)dW(s) -\frac{1}{2}\int_{0}^{t}\gamma^{2}(s)ds
      \right)   
     \end{align*}
-    \item We assume $ \E[\mathcal{E}_{t}(\gamma \bullet W)] = 1, \; \forall\;t\in [0,T]$ as well as the Novikov condition 
+    \item We assume that the Novikov condition holds:
     \begin{align*}
      \E\left[
      \exp\left(
@@ -94,7 +94,7 @@
     \begin{align*}
     \frac{dQ}{dP}\bigg{|}_{\F_{T}} := \mathcal{E}_{T}(\gamma \bullet W)   
     \end{align*}
-    is well-defined, giving rise to a $Q$-Brownian Motion $W^{Q} = \{W^{Q}(t), t\in [0,T]\} $ defined on $(\Omega, \F, Q)$
+    Is well-defined, furthermore $\mathcal{E}$ is a martingale, and from Girsanov's theorem, we have that: $W^{Q} = \{W^{Q}(t), t\in [0,T]\} $ is a $Q$-Brownian Motion defined on $(\Omega, \F, Q)$
 \end{itemize} 
 \end{frame}
 
@@ -260,7 +260,7 @@ $d_{i}$: day count fraction.
     \caption{O/N-SOFR and Repo volume}
     %\label{fig: ON_1M_3M_SOFR}
 \end{figure}
-Source: 
+Source: \url{https://www.newyorkfed.org/markets/reference-rates/sofr}
 \end{frame}
 
 \begin{frame}{SOFR-futures}
@@ -268,7 +268,7 @@ Source:
     \item SOFR, overnight rate, outlook: 24 hours. 
     \item CME (Chicago Mercantile Exchange), publish term SOFR. 
     \item tenors: 1M, 3M, 6M and 12M. 
-    \item Inferred from futures market. 
+    \item Inferred from the futures market. 
 \end{itemize}
 
 
@@ -286,9 +286,9 @@ e^{\int_{S}^{T}r(s)ds}\bigg{|}\F_{t}
 \end{definition}
 \end{frame}
 
-\subsection{Hedge}
+\subsection{Hedging 3M-arithmetic rate}
 
-\begin{frame}{Hedge}
+\begin{frame}{Hedging 3M-arithmetic rate}
 \begin{itemize}
     \item Loan of 30 Millon dollars over a 3M-period. 
     \item 3M-arithmetic floating-rate $X^{3M_{A}}(S,T)$ is to be paid, over this period. 
@@ -475,10 +475,11 @@ X^{3M_{A}}(S,T)-Y(a_{t}, b_{t}, c_{t})
 \begin{frame}{ESG}
 \begin{itemize}
     \item ESG: Environmental, Social and Governance
-    \item EU: taxonomy, carbon neutral by 2050. 
+    \item EU: taxonomy, carbon neutral by 2050.  
     \item Partial Solution: Sustainable Finance,
           ESG-linked interest rate swap. 
-    \item ISDA: SBM Offshore and ING, the world's first sustainability improvement derivative. 
+    \item ISDA: SBM Offshore and ING, the world's first sustainability improvement derivative
+    \cite{ISDA_2021}. 
     \item SBM pays fixed and receives floating. 
     \item ESG-part: If SBM meets certain ESG criteria, a 5-10 bp discount is applied to the fixed rate. Conversely, a penalty of 5-10 bp is added.  
 \end{itemize}
@@ -714,6 +715,46 @@ $C^{ESG} = (24,23,22,21)$
 \end{frame}
 
 
+\section{Conclusions and further work}
+
+\subsection{SOFR: Conclusion and further work}
+\begin{frame}{SOFR: Conclusion and further work}
+\begin{itemize}
+    \item SOFR: overnight, thus 1-tenor: 24h. 
+    \item futures market: market view on future rates. 
+    \item CME term-SOFR: inferred from the futures market. 
+    \item Further work: look more into the modelling of term-SOFR, closely related to EFFR (Effective Federal Funds Rate), as discussed in: \cite{gellert2021short}.  
+    \item Hedge: we used a one-factor model and operated under $Q$. More reasonable: multi-factor models and suitable $ P$ dynamics. Following the author's approach in \cite{SS20} 
+\end{itemize}
+\end{frame}
+
+\subsection{ESG: Conclusion and further work}
+\begin{frame}{ESG: Conclusion and further work}
+\begin{itemize}
+    \item ESG-criteria: 
+    \[
+    A_{i} = \{X_{T_{i}} \leq C_{T_{i}}^{ESG}\}
+    \]
+    \item $C^{ESG}$: $\F_{T_{i-1}}$-measurable instead of $\F_{0}$. 
+    \item Choice of process $X = (X(t))_{t\in[0,T]}$ important. Which one to choose? 
+    \item ESG-score/risk-score will be observed under $P$, not $Q$. Complex transformations. 
+    \item Data accessibility, standardization of score $\mathcal{S}$: 
+    \begin{align*}
+     \mathcal{S} := \sum_{j=1}^{m}w_{j}X_{j}   
+    \end{align*}
+    \item how to choose the weights $w_{j}$'s and which metrics to $X_{j}$'s should one choose?
+    Different agencies can give different scores to the same company, as discussed in \cite{Billio2021}.  
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{ESG: Conclusion and further work}
+\begin{itemize}
+    \item Closed expression for $K_{n}^{ESG}(\omega)$, quite complex, requires the Monte-Carlo approach. However, it gives flexibility for modelling ESG scores/risk scores. 
+\end{itemize}
+\end{frame}
+
+
 
 \begin{comment}
 \begin{frame}{Framework}
@@ -738,72 +779,6 @@ $C^{ESG} = (24,23,22,21)$
 
 
 
-%\subsection{Example}
-
-
-\begin{frame}{Mathematics}
-    \begin{example}
-        The function \(\phi \colon \mathbb{R} \to \mathbb{R}\) given by \(\phi(x) = 2x\) is continuous at the point \(x = \alpha\),
-        because if \(\epsilon > 0\) and \(x \in \mathbb{R}\) is such that \(\lvert x - \alpha \rvert < \delta = \frac{\epsilon}{2}\),
-        then
-        \begin{equation*}
-            \lvert \phi(x) - \phi(\alpha)\rvert = 2\lvert x - \alpha \rvert < 2\delta = \epsilon.
-        \end{equation*}
-    \end{example}
-\end{frame}
-
-
-
-
-
-\section{Highlighting}
-\SectionPage
-
-
-\begin{frame}{Highlighting}
-    Some times it is useful to \alert{highlight} certain words in the text.
-    
-    \begin{alertblock}{Important message}
-        If a lot of text should be \alert{highlighted}, it is a good idea to put it in a box.
-    \end{alertblock}
-    
-    It is easy to match the \structure{colour theme}.
-\end{frame}
-
-
-\section{Lists}
-
-
-\begin{frame}{Lists}
-    \begin{itemize}
-        \item
-        Bullet lists are marked with a grey box.
-    \end{itemize}
-    
-    \begin{enumerate}
-        \item
-        \label{enum:item}
-        Numbered lists are marked with a white number inside a grey box.
-    \end{enumerate}
-
-    \begin{description}
-        \item[Description]
-        highlights important words with grey text.
-    \end{description}
-
-    Items in numbered lists like \enumref{enum:item} can be referenced with a grey box.
-
-    \begin{example}
-        \begin{itemize}
-            \item
-            Lists change colour after the environment.
-        \end{itemize}
-    \end{example}
-\end{frame}
-
-
-\section{Effects}
-hei 
 
 \section{References}
 
@@ -813,43 +788,101 @@ hei
 
         % Article is the default.
         \setbeamertemplate{bibliography item}[book]
-
-        \bibitem{Hartshorne1977}
-        Hartshorne, R.
-        \newblock \emph{Algebraic Geometry}.
-        \newblock Springer-Verlag, 1977.
+        
+        
+        %\bibitem{Hartshorne1977}
+        %Hartshorne, R.
+        %\newblock \emph{Algebraic Geometry}.
+        %\newblock Springer-Verlag, 1977.
 
         \setbeamertemplate{bibliography item}[article]
 
-        \bibitem{Helso2020}
-        Helsø, M.
-        \newblock \enquote{Rational quartic symmetroids}.
-        \newblock \emph{Adv. Geom.}, 20(1):71--89, 2020.
+        
+        %\bibitem{Helso2020}
+        %Helsø, M.
+        %\newblock \enquote{Rational quartic symmetroids}.
+        %\newblock \emph{Adv. Geom.}, 20(1):71--89, 2020.
 
         \setbeamertemplate{bibliography item}[online]
 
-        \bibitem{HR2018}
-        Helsø, M.\ and Ranestad, K.
-        \newblock \emph{Rational quartic spectrahedra}, 2018.
-        \newblock \url{https://arxiv.org/abs/1810.11235}
+        \bibitem{ISDA_2021}
+        ISDA, 2021 
+        \newblock \enquote{Overview of ESG-related derivatives products and transactions}
+        \newblock \url{https://www.isda.org/a/qRpTE/Overview-of-ESG-related-Derivatives-Products-and-Transactions.pdf}
+        
+
+        %\bibitem{SS20}
+        %Skov, J. B. and Skovmand, D
+        %\newblock \enquote{Dynamic term structure models for SOFR futures, 2020} 
+        %\newblock
+        %\url{https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3692283}
+        
+
+        %\bibitem{HR2018}
+        %Helsø, M.\ and Ranestad, K.
+        %\newblock \emph{Rational quartic spectrahedra}, 2018.
+        %\newblock \url{https://arxiv.org/abs/1810.11235}
 
         \setbeamertemplate{bibliography item}[triangle]
 
-        \bibitem{AM1969}
-        Atiyah, M.\ and Macdonald, I.
-        \newblock \emph{Introduction to commutative algebra}.
-        \newblock Addison-Wesley Publishing Co., Reading, Mass.-London-Don
-        Mills, Ont., 1969
+        %\bibitem{AM1969}
+        %Atiyah, M.\ and Macdonald, I.
+        %\newblock \emph{Introduction to commutative algebra}.
+        %\newblock Addison-Wesley Publishing Co., Reading, Mass.-London-Don
+        %Mills, Ont., 1969
 
         \setbeamertemplate{bibliography item}[text]
 
-        \bibitem{Artin1966}
-        Artin, M.
-        \newblock \enquote{On isolated rational singularities of surfaces}.
-        \newblock \emph{Amer. J. Math.}, 80(1):129--136, 1966.
+        
+
+        \bibitem{SS20}
+        Skov, J. B. and Skovmand, D
+        \newblock \enquote{Dynamic term structure models for SOFR futures, 2020} 
+        \newblock
+        \url{https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3692283}
+
+        \bibitem{gellert2021short}
+        Gellert, Karol and Schloegl, Erik
+        \newblock \enquote{Short Rate Dynamics: A Fed Funds and SOFR perspective, 2021}
+        \newblock 
+        \url{https://ssrn.com/abstract=3763589}
+
+        \bibitem{Billio2021}
+        Billio, Monica et al. 
+        \newblock \enquote{Inside the ESG ratings: (Dis)agreement and performance, 2021}
+        \newblock \url{https://onlinelibrary.wiley.com/doi/abs/10.1002/csr.2177}
+        
+        
+
+        %\bibitem{Artin1966}
+        %Artin, M.
+        %\newblock \enquote{On isolated rational singularities of surfaces}.
+        %\newblock \emph{Amer. J. Math.}, 80(1):129--136, 1966.
 
     \end{thebibliography}
 \end{frame}
 
+
+\begin{comment}
+@article{Billio2021,
+author = 
+{Billio, Monica and Costola, Michele and Hristova, Iva and Latino, Carmelo and Pelizzon, Loriana
+},
+title = {
+Inside the ESG ratings: (Dis)agreement and performance
+},
+journal = {
+Corporate Social Responsibility and Environmental Management
+},
+volume = {28},
+number = {5},
+pages = {1426-1445},
+keywords = {Corporate Social Responsibility, ESG rating agencies, sustainable investments},
+doi = {https://doi.org/10.1002/csr.2177},
+url = {https://onlinelibrary.wiley.com/doi/abs/10.1002/csr.2177},
+eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1002/csr.2177},
+year = {2021}
+}    
+\end{comment}
 
 \end{document}
