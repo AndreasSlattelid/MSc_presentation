@@ -377,7 +377,39 @@ g(s) &= \exp\left(
 a_{t}f^{1M}(t,S,T_{1M}) + 
 b_{t}f^{1M}(t,T_{1M}, T_{2M}) + 
 c_{t}f^{1M}(t,T_{2M}, T)
-\end{align*}    
+\end{align*}
+
+\begin{tikzpicture}[snake=zigzag, line before snake = 5mm, line after snake = 5mm]
+    % draw horizontal line   
+    \draw (0,0) -- (8,0);
+    %\draw[snake] (2,0) -- (4,0);
+    %\draw (4,0) -- (6,0);
+    %\draw[snake] (6,0) -- (8,0);
+    %\draw (8,0) -- (9,0);
+    % Calligraphic brace
+    \draw [
+    decorate, 
+    decoration = {calligraphic brace,
+                  raise=5pt,
+                  amplitude=5pt,
+                  aspect=0.50}] (1,0) --  (7.0,0)
+                  node[pos=0.50, above =1 0pt,black]{$3M$};
+
+    % draw vertical lines
+    \foreach \x in {0,1.0,3.0,5.0,7.0}
+      \draw (\x cm,3pt) -- (\x cm,-3pt);
+
+    % draw nodes
+    \draw (0,0) node[below=3pt] {$ t $} node[above=3pt] {$   $};
+    \draw (1,0) node[below=3pt] {$ S $} node[above=3pt] {$  $};
+    \draw (3.0,0) node[below=3pt] {$ T_{1M} $} node[above=3pt] {$  $};
+    \draw (5.0,0) node[below=3pt] {$ T_{2M} $} node[above=3pt] {$  $};
+    \draw (7.0,0) node[below=3pt] {$ T $} node[above=3pt] {$   $};
+  \end{tikzpicture}
+
+
+
+
 The hedge looks like this: 
 \begin{align*}
 \underset{(a_{t}, b_{t}, c_{t})\in \R^{3}}{\arg\min}
