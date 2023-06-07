@@ -41,6 +41,8 @@
 % Midrule lines in tabels:
 \usepackage{booktabs}
 
+%\usepackage[round]{natbib}
+%\bibliographystyle{plainnat}
 
 
 
@@ -76,7 +78,8 @@
     \item $(\Omega, \F, \mathbb{F}, P)$ probability space.  
     \item $\mathbb{F} = \{\F_{t}, t \in [0,T]\}$, right-continous and augmented, $T$ a fixed time horizon. 
     \item $W = \{W(t), t\in [0,T]\}$ a one-dimensional Brownian Motion. 
-    \item $\mathcal{E} = \{\mathcal{E}_{t}(\gamma \bullet W), t \in [0,T]\}$ where: 
+    \item Let $\gamma \in M^{2}_{loc}([0,T])$ and define:
+    $\mathcal{E} = \{\mathcal{E}_{t}(\gamma \bullet W), t \in [0,T]\}$, where:
     \begin{align*}
      \mathcal{E}_{t}(\gamma \bullet W) := \exp\left(
      \int_{0}^{t}\gamma(s)dW(s) -\frac{1}{2}\int_{0}^{t}\gamma^{2}(s)ds
@@ -766,7 +769,7 @@ $C^{ESG} = (24,23,22,21)$
     \item futures market: market view on future rates. 
     \item CME term-SOFR: inferred from the futures market. 
     \item Further work: look more into the modelling of term-SOFR, closely related to EFFR (Effective Federal Funds Rate), as discussed in: \cite{gellert2021short}.  
-    \item Hedge: we used a one-factor model and operated under $Q$. More reasonable: multi-factor models and suitable $ P$ dynamics. Following the author's approach in \cite{SS20} 
+    \item Hedge: we used a one-factor model and operated under $Q$. More reasonable: multi-factor models and suitable $ P$ dynamics. Following the author's approach in \cite{SS20} (Skov and Skovmand, 2020)
 \end{itemize}
 \end{frame}
 
@@ -785,7 +788,7 @@ $C^{ESG} = (24,23,22,21)$
      \mathcal{S} := \sum_{j=1}^{m}w_{j}X_{j}   
     \end{align*}
     \item how to choose the weights $w_{j}$'s and which metrics to $X_{j}$'s should one choose?
-    Different agencies can give different scores to the same company, further discussed in \cite{Billio2021}.  
+    Different agencies can give different scores to the same company, further discussed in \cite{Billio2021} (Billio et al, 2021)  
 \end{itemize}
 \end{frame}
 
