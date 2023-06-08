@@ -64,9 +64,19 @@
 %     \begin{frame}[allowframebreaks]{Title}
 %
 % if the TOC does not fit one frame.
+\begin{frame}{Introduction/Motivation}
+\begin{itemize}
+    \item Risk-Free Reference rates (RFRs):
+    The transition from IBOR to RFRs is ongoing/almost fully completed. Market participants need a better understanding of these special rates, how they differ, and available products. 
+    \item ESG: Environmental, Social and Governance. EU taxonomy, regulatory requirements, and increased demand for ESG-linked products. 
+    
+\end{itemize} 
+\end{frame}
+
 \begin{frame}{Table of contents}
     \tableofcontents[currentsection]
 \end{frame}
+
 
 
 \section{Interest rate theory}
@@ -103,7 +113,7 @@
     \begin{align*}
     \frac{dQ}{dP}\bigg{|}_{\F_{T}} := \mathcal{E}_{T}(\gamma \bullet W)   
     \end{align*}
-    Is well-defined, furthermore $\mathcal{E}$ is a martingale, and from Girsanov's theorem, we have that: $W^{Q} = \{W^{Q}(t), t\in [0,T]\} $ is a $Q$-Brownian Motion defined on $(\Omega, \F, Q)$
+    Is well-defined, furthermore $\mathcal{E}$ is a martingale, and from Girsanov's theorem, we have that: $W^{Q} = \left\{W^{Q}(t) = W(t) - \int_{0}^{t}\gamma(s)ds, t\in [0,T]\right\} $ is a $Q$-Brownian Motion defined on $(\Omega, \F, Q)$
 \end{itemize} 
 \end{frame}
 
@@ -317,6 +327,8 @@ e^{\int_{S}^{T}r(s)ds}\bigg{|}\F_{t}
 \begin{frame}{Hedge 1}
 \begin{itemize}
     \item Hedge possibility number one: using the available 3M-SOFR futures: 
+
+\begin{proposition}[Hedge 1: 3M-Geometric situation]
 \begin{align*}
 \underset{a_{t}\in \R}{\arg\min}
 &\E_{Q}\left[
@@ -331,6 +343,7 @@ X^{3M_{A}}(S,T)-a_{t}f^{3M}(t,S,T)
 (T-S)f^{3M}(t,S,T)
 }      
 \end{align*}
+\end{proposition}
 
 \end{itemize}
 \end{frame}
@@ -339,6 +352,8 @@ X^{3M_{A}}(S,T)-a_{t}f^{3M}(t,S,T)
 \begin{frame}{Hedge 1}
 \begin{itemize}
     \item $r$ ATS: $dr(t) = [b(t) + \beta(t)r(t)]dt + \sqrt{a(t) + \alpha(t)r(t)}dW^{Q}(t)$ 
+
+\begin{proposition}[Hedge 1: 3M-ATS setting]   
 \begin{align*}
 \underset{a_{t}\in \R}{\arg\min}
 &\E_{Q}\left[
@@ -366,6 +381,7 @@ g(s) &= \exp\left(
 \int_{t}^{s}e^{-\int_{t}^{w}\beta(v)dv}b(w)dw + \E_{Q}[r(t)]
 \right) 
 \end{align*}
+\end{proposition} 
 
 \end{itemize}
 \end{frame}
@@ -427,7 +443,6 @@ X^{3M_{A}}(S,T)-Y(a_{t}, b_{t}, c_{t})
 \end{frame}
 
 \begin{frame}{Hedge 2}
-
 \begin{itemize}
     \item $\mathbf{x}_{t} = (a_{t}, b_{t}, c_{t})$, weightings in 1M-SOFR future rates.  
     \item SOFR-future rates:
@@ -437,6 +452,27 @@ X^{3M_{A}}(S,T)-Y(a_{t}, b_{t}, c_{t})
     \right)
     &= (\alpha_{t}, \beta_{t}, \gamma_{t})
     \end{align*}
+    \item $G(\mathbf{x}_{t}) := \E_{Q}\left[
+          \left(
+          X^{3M_{A}}(S,T)-Y(a_{t}, b_{t}, c_{t})
+          \right)^{2}
+          \bigg{|}\F_{t}
+          \right] $
+\end{itemize}
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=5cm]{SOFR/plot_G(x)_special_case.PNG}
+    \caption{level Curve $G(\mathbf{x}_{t}) = k$, where all constants are set to one}
+    \label{fig: plot_G(x)_SOFR_1M}
+\end{figure}
+
+
+\end{frame}
+
+
+\begin{frame}{Hedge 2}
+\begin{itemize}
     \item If $\det(M)\neq 0$, where:
     \begin{align*}
     M &= 
@@ -457,8 +493,7 @@ X^{3M_{A}}(S,T)-Y(a_{t}, b_{t}, c_{t})
     \gamma_{t} 
     \end{bmatrix}
     \end{align*}
-\end{itemize}
-
+\end{itemize}  
 \end{frame}
 
 \begin{frame}{Numerical example}
@@ -493,6 +528,8 @@ X^{3M_{A}}(S,T)-Y(a_{t}, b_{t}, c_{t})
 \end{itemize}
     
 \end{frame}
+
+
 
 
 \begin{frame}{Numerical example}
