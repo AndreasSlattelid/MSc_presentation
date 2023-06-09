@@ -67,8 +67,15 @@
 \begin{frame}{Introduction/Motivation}
 \begin{itemize}
     \item Risk-Free Reference rates (RFRs):
-    The transition from IBOR to RFRs is ongoing/almost fully completed. Market participants need a better understanding of these special rates, how they differ, and available products. 
-    \item ESG: Environmental, Social and Governance. EU taxonomy, regulatory requirements, and increased demand for ESG-linked products. 
+    The transition from IBOR to RFRs is ongoing/almost fully completed. Market participants need a better understanding of these special rates, their differences, and available products. 
+    \item ESG: Environmental, Social and Governance. EU taxonomy, increased demand for ESG-linked products: 
+    \begin{figure}[htp]
+    \centering
+    \includegraphics[height = 4cm, width=8cm]{ESG/ESG_regulations.PNG}
+    \caption{Number of ESG regulations}
+    %\label{fig: ESG_regulations}
+\end{figure}
+Source: \url{https://www.unpri.org/policy/regulation-database}
     
 \end{itemize} 
 \end{frame}
@@ -113,7 +120,8 @@
     \begin{align*}
     \frac{dQ}{dP}\bigg{|}_{\F_{T}} := \mathcal{E}_{T}(\gamma \bullet W)   
     \end{align*}
-    Is well-defined, furthermore $\mathcal{E}$ is a martingale, and from Girsanov's theorem, we have that: $W^{Q} = \left\{W^{Q}(t) = W(t) - \int_{0}^{t}\gamma(s)ds, t\in [0,T]\right\} $ is a $Q$-Brownian Motion defined on $(\Omega, \F, Q)$
+    Is well-defined, furthermore $\mathcal{E}$ is a martingale, and from Girsanov's theorem, we have that: $W^{Q} = \left\{W^{Q}(t) = W(t) - \int_{0}^{t}\gamma(s)ds, t\in [0,T]\right\}$
+    defines a $Q$-Brownian Motion on $(\Omega, \F, Q)$. 
 \end{itemize} 
 \end{frame}
 
@@ -805,7 +813,7 @@ $C^{ESG} = (24,23,22,21)$
     \item SOFR: overnight, thus 1-tenor: 24h. 
     \item futures market: market view on future rates. 
     \item CME term-SOFR: inferred from the futures market. 
-    \item Further work: look more into the modelling of term-SOFR, closely related to EFFR (Effective Federal Funds Rate), as discussed in: \cite{gellert2021short}.  
+    \item Further work: look more into the modelling of term-SOFR, closely related to EFFR (Effective Federal Funds Rate), as discussed in: \cite{gellert2021short} (Gellert, 2021).  
     \item Hedge: we used a one-factor model and operated under $Q$. More reasonable: multi-factor models and suitable $ P$ dynamics. Following the author's approach in \cite{SS20} (Skov and Skovmand, 2020)
 \end{itemize}
 \end{frame}
